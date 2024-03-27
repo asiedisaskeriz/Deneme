@@ -37,7 +37,13 @@ def joiner(token, status):
     while True:
         try:
             if ws.connected:
-                start = json.loads(ws.recv())
+                ws.settimeout(1)  # Set a timeout for the recv() method
+                try:
+                    start = json.loads(ws.recv())
+                except WebSocketTimeoutException:
+                    print("No message received from the server. Reconnecting...")
+                    continue  # Skip to the next iteration of the loop
+
                 heartbeat = start['d']['heartbeat_interval']
 
                 auth = {"op": 2,"d": {"token": token,"properties": {"$os": "Windows 10","$browser": "Google Chrome","$device": "Windows"},"presence": {"status": status,"afk": False}},"s": None,"t": None}
