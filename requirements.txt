@@ -1,0 +1,5 @@
+requests
+websocket
+websocket-client
+Flask
+websocket-client
