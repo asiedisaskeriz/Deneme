@@ -1,9 +1,10 @@
 import os
 import sys
-import json
+import json 
 import time
 import requests
-import websocket
+import websocket_client
+
 from keep_alive import keep_alive
 
 status = "dnd" #online/dnd/idle
@@ -31,7 +32,8 @@ discriminator = userinfo["discriminator"]
 userid = userinfo["id"]
 
 def joiner(token, status):
-    ws = websocket.WebSocket()
+
+  ws = websocket_client.WebSocket()
     ws.connect('wss://gateway.discord.gg/?v=9&encoding=json')
     start = json.loads(ws.recv())
     heartbeat = start['d']['heartbeat_interval']
