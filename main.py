@@ -3,7 +3,7 @@ import sys
 import json 
 import time
 import requests
-from websocket import create_connection
+from websocket import WebSocket
 
 from keep_alive import keep_alive
 
@@ -33,7 +33,7 @@ userid = userinfo["id"]
 
 def joiner(token, status):
 
-  ws = create_connection('wss://gateway.discord.gg/?v=9&encoding=json')
+  ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
   
   start = json.loads(ws.recv())
   heartbeat = start['d']['heartbeat_interval']
