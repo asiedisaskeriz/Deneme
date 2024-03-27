@@ -52,9 +52,11 @@ def joiner(token, status):
                 ws.send(json.dumps({"op": 1,"d": None}))
             else:
                 print("Connection lost. Reconnecting...")
+                time.sleep(5)  # Add a delay before reconnecting
                 ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
         except WebSocketConnectionClosedException:
             print("Connection lost. Exception caught. Reconnecting...")
+            time.sleep(5)  # Add a delay before reconnecting
             ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
 
 def run_joiner():
