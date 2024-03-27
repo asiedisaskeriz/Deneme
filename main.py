@@ -32,25 +32,30 @@ discriminator = userinfo["discriminator"]
 userid = userinfo["id"]
 
 def joiner(token, status):
-    try:
-        ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
-        
-        start = json.loads(ws.recv())
-        heartbeat = start['d']['heartbeat_interval']
+    ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
+    
+    while True:
+        try:
+            if ws.connected:
+                start = json.loads(ws.recv())
+                heartbeat = start['d']['heartbeat_interval']
 
-        auth = {"op": 2,"d": {"token": token,"properties": {"$os": "Windows 10","$browser": "Google Chrome","$device": "Windows"},"presence": {"status": status,"afk": False}},"s": None,"t": None}
-        
-        vc = {"op": 4,"d": {"guild_id": GUILD_ID,"channel_id": CHANNEL_ID,"self_mute": SELF_MUTE,"self_deaf": SELF_DEAF}}
+                auth = {"op": 2,"d": {"token": token,"properties": {"$os": "Windows 10","$browser": "Google Chrome","$device": "Windows"},"presence": {"status": status,"afk": False}},"s": None,"t": None}
+                
+                vc = {"op": 4,"d": {"guild_id": GUILD_ID,"channel_id": CHANNEL_ID,"self_mute": SELF_MUTE,"self_deaf": SELF_DEAF}}
 
-        ws.send(json.dumps(auth))
-        ws.send(json.dumps(vc))
+                ws.send(json.dumps(auth))
+                ws.send(json.dumps(vc))
 
-        time.sleep(heartbeat / 1000)
+                time.sleep(heartbeat / 1000)
 
-        ws.send(json.dumps({"op": 1,"d": None}))
-    except WebSocketConnectionClosedException:
-        print("Connection lost. Reconnecting...")
-        joiner(token, status)
+                ws.send(json.dumps({"op": 1,"d": None}))
+            else:
+                print("Connection lost. Reconnecting...")
+                ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
+        except WebSocketConnectionClosedException:
+            print("Connection lost. Exception caught. Reconnecting...")
+            ws = WebSocket('wss://gateway.discord.gg/?v=9&encoding=json')
 
 def run_joiner():
   os.system("clear")
