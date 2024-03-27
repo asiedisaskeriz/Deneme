@@ -1,5 +1,5 @@
-import pip
-print(pip.get_installed_distributions())
+import pkg_resources
+print(pkg_resources.working_set)
 
 import os
 import sys
