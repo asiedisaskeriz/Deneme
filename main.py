@@ -6,6 +6,7 @@ import requests
 from websocket import WebSocket, WebSocketConnectionClosedException
 
 from keep_alive import keep_alive
+keep_alive()
 
 status = "dnd" #online/dnd/idle
 
