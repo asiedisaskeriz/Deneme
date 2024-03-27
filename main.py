@@ -1,3 +1,6 @@
+import pip
+print(pip.get_installed_distributions())
+
 import os
 import sys
 import json 
