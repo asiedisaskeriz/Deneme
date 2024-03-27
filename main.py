@@ -4,6 +4,7 @@ import json
 import time
 import requests
 import websocket-client
+from websocket import create_connection
 
 from keep_alive import keep_alive
 
